@@ -13,7 +13,7 @@ Window::Window(int width, int height)
 
     while (m_window.isOpen())
     {
-        // std::chrono::steady_clock::time_point frame_start = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point frame_start = std::chrono::steady_clock::now();
 
         while (const std::optional event = m_window.pollEvent())
         {
@@ -28,12 +28,12 @@ Window::Window(int width, int height)
         m_solver.render(m_window);
         m_window.display();
 
-        // std::chrono::steady_clock::time_point frame_end = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point frame_end = std::chrono::steady_clock::now();
 
-        // const float seconds_per_frame = std::chrono::duration_cast<std::chrono::duration<float>>(frame_end - frame_start).count();
+        const float seconds_per_frame = std::chrono::duration_cast<std::chrono::duration<float>>(frame_end - frame_start).count();
 
-        // float fps = 1.0f / seconds_per_frame;
-        // m_dt = 60.0f / fps;
-        m_dt = 1;
+        float fps = 1.0f / seconds_per_frame;
+        m_dt = 60.0f / fps;
+        // m_dt = 1;
     }
 }

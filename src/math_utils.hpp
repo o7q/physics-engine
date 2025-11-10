@@ -8,15 +8,17 @@ struct Vec2
     Vec2() = default;
     Vec2(T x, T y) : x(x), y(y) {}
 
-    Vec2 operator+(const Vec2 &other) const { return Vec2(x + other.x, y + other.y); }
-    Vec2 operator-(const Vec2 &other) const { return Vec2(x - other.x, y - other.y); }
-    Vec2 operator*(const Vec2 &other) const { return Vec2(x * other.x, y * other.y); }
-    Vec2 operator/(const Vec2 &other) const { return Vec2(x / other.x, y / other.y); }
+    Vec2 operator+(const Vec2 &other) const { return Vec2<T>(x + other.x, y + other.y); }
+    Vec2 operator-(const Vec2 &other) const { return Vec2<T>(x - other.x, y - other.y); }
+    Vec2 operator*(const Vec2 &other) const { return Vec2<T>(x * other.x, y * other.y); }
+    Vec2 operator/(const Vec2 &other) const { return Vec2<T>(x / other.x, y / other.y); }
 
-    Vec2 operator+(const T &v) const { return Vec2(x + v, y + v); }
-    Vec2 operator-(const T &v) const { return Vec2(x - v, y - v); }
-    Vec2 operator*(const T &v) const { return Vec2(x * v, y * v); }
-    Vec2 operator/(const T &v) const { return Vec2(x / v, y / v); }
+    Vec2 operator+(const T &v) const { return Vec2<T>(x + v, y + v); }
+    Vec2 operator-(const T &v) const { return Vec2<T>(x - v, y - v); }
+    Vec2 operator*(const T &v) const { return Vec2<T>(x * v, y * v); }
+    Vec2 operator/(const T &v) const { return Vec2<T>(x / v, y / v); }
+
+    Vec2 negate() const { return Vec2<T>(-x, -y); }
 };
 
 template <typename T>

@@ -5,34 +5,22 @@
 class Particle
 {
 public:
-    Particle(Vec2<float> position, float size)
+    Particle(Vec2<float> position, float radius, float mass)
     {
         m_position = position;
         m_position_last = position;
-        m_velocity = Vec2<float>(0, 0);
-        m_acceleration = Vec2<float>(0, 0);
-        m_radius = size;
+        m_radius = radius;
+        m_mass = mass;
     }
 
-    void accelerate(Vec2<float> acc)
+    void update(float dt)
     {
-        m_acceleration = m_acceleration + acc;
-    }
-
-    void setVelocity(Vec2<float> vel)
-    {
-        m_velocity = vel;
-    }
-
-    void updatePosition(float dt)
-    {
+        // verlet integration
         Vec2<float> temp = m_position;
-        m_position = m_position + m_velocity + m_acceleration;
+        m_position = m_position + (m_position - m_position_last) + m_acceleration * dt * dt;
 
         m_position_last = temp;
-
-        m_velocity = m_position - m_position_last;
-        m_acceleration = Vec2<float>(0, 0);
+        m_acceleration = Vec2<float>(0.0f, 0.0f);
     }
 
     void setPosition(Vec2<float> position)
@@ -40,19 +28,26 @@ public:
         m_position = position;
     }
 
-    void move(Vec2<float> vec)
+    void setVelocity(Vec2<float> velocity, float dt)
     {
-        m_position = m_position + vec;
+        m_position_last = m_position - velocity * dt;
+    }
+
+    void setAcceleration(Vec2<float> acceleration)
+    {
+        m_acceleration = acceleration;
     }
 
     Vec2<float> getPosition() const { return m_position; }
-    Vec2<float> getVelocity() const { return m_velocity; }
+    Vec2<float> getVelocity(float dt) const { return (m_position - m_position_last) / dt; }
+    Vec2<float> getAcceleration() const { return m_acceleration; }
     float getRadius() const { return m_radius; }
+    float getMass() const { return m_mass; }
 
 private:
     Vec2<float> m_position;
     Vec2<float> m_position_last;
-    Vec2<float> m_velocity;
-    Vec2<float> m_acceleration;
+    Vec2<float> m_acceleration = Vec2<float>(0.0f, 0.0f);
     float m_radius = 5.0f;
+    float m_mass = 1.0f;
 };
