@@ -33,7 +33,7 @@ Window::Window(int width, int height)
         const float seconds_per_frame = std::chrono::duration_cast<std::chrono::duration<float>>(frame_end - frame_start).count();
 
         float fps = 1.0f / seconds_per_frame;
-        m_dt = 60.0f / fps;
-        // m_dt = 1;
+        // m_dt = 60.0f / fps;
+        m_dt = 1;
     }
 }

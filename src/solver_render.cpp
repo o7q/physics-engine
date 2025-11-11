@@ -12,10 +12,11 @@ void Solver::render(sf::RenderWindow &window)
 
     window.draw(visual_bounds);
 
-    for (Particle &particle : m_particles)
+    for (Particle &particle : m_particleWorld.getParticles())
     {
         sf::CircleShape circle;
-        circle.setFillColor(sf::Color::Blue);
+        Vec2<float> vel = particle.getVelocity(1);
+        circle.setFillColor(sf::Color(20, 100, 255));
         circle.setOrigin(sf::Vector2f(particle.getRadius(), particle.getRadius()));
         circle.setRadius(particle.getRadius());
         circle.setPosition(sf::Vector2f(particle.getPosition().x, particle.getPosition().y));

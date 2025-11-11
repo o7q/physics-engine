@@ -38,11 +38,17 @@ public:
         m_acceleration = acceleration;
     }
 
+    void setPinned(bool pinned)
+    {
+        m_pinned = pinned;
+    }
+
     Vec2<float> getPosition() const { return m_position; }
     Vec2<float> getVelocity(float dt) const { return (m_position - m_position_last) / dt; }
     Vec2<float> getAcceleration() const { return m_acceleration; }
     float getRadius() const { return m_radius; }
     float getMass() const { return m_mass; }
+    bool isPinned() const { return m_pinned; }
 
 private:
     Vec2<float> m_position;
@@ -50,4 +56,6 @@ private:
     Vec2<float> m_acceleration = Vec2<float>(0.0f, 0.0f);
     float m_radius = 5.0f;
     float m_mass = 1.0f;
+
+    bool m_pinned = false;
 };
