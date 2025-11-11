@@ -9,10 +9,6 @@
 class ParticleWorld
 {
 public:
-    ParticleWorld()
-    {
-    }
-
     void add(Particle p)
     {
         m_particles.push_back(p);

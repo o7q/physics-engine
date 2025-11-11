@@ -50,6 +50,17 @@ public:
     float getMass() const { return m_mass; }
     bool isPinned() const { return m_pinned; }
 
+    void setColor(float r, float g, float b)
+    {
+        m_color_r = r;
+        m_color_g = g;
+        m_color_b = b;
+    }
+
+    float getColorR() const { return m_color_r; }
+    float getColorG() const { return m_color_g; }
+    float getColorB() const { return m_color_b; }
+
 private:
     Vec2<float> m_position;
     Vec2<float> m_position_last;
@@ -58,4 +69,6 @@ private:
     float m_mass = 1.0f;
 
     bool m_pinned = false;
+
+    float m_color_r = 0.0f, m_color_g = 0.0f, m_color_b = 0.0f;
 };

@@ -16,7 +16,8 @@ void Solver::render(sf::RenderWindow &window)
     {
         sf::CircleShape circle;
         Vec2<float> vel = particle.getVelocity(1);
-        circle.setFillColor(sf::Color(20, 100, 255));
+        // circle.setFillColor(sf::Color(20, 100, 255));
+        circle.setFillColor(sf::Color(particle.getColorR(), particle.getColorG(), particle.getColorB()));
         circle.setOrigin(sf::Vector2f(particle.getRadius(), particle.getRadius()));
         circle.setRadius(particle.getRadius());
         circle.setPosition(sf::Vector2f(particle.getPosition().x, particle.getPosition().y));
@@ -27,4 +28,10 @@ void Solver::render(sf::RenderWindow &window)
         // circle.setRadius(2.0f);
         // window.draw(circle);
     }
+
+//     for (Spring& spring : m_particleWorld.getSprings())
+//     {
+// sf::Vertex l[2];
+// l.x = spring.
+//     }
 }
