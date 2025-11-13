@@ -3,12 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include "solver.hpp"
-#include "math_utils.hpp"
-
-#include <iostream>
-#include <string>
-#include <chrono>
+#include "particle_world/particle_world.hpp"
 
 class Window
 {
@@ -16,7 +11,9 @@ public:
     Window(int width, int height);
 
 private:
+    void drawParticleWorld(ParticleWorld& particleWorld);
+
+private:
     sf::RenderWindow m_window;
-    Solver m_solver;
     float m_dt;
 };
