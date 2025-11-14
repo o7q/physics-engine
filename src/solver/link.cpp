@@ -5,16 +5,11 @@ void ParticleLinkSolver::update_step(float dt)
     size_t size = r_particles.size();
     for (ParticleLink &link : r_links)
     {
-        size_t i1 = link.getI1();
-        size_t i2 = link.getI2();
+        uint64_t i1 = link.getI1();
+        uint64_t i2 = link.getI2();
 
-        if (i1 >= size || i2 >= size)
-        {
-            return;
-        }
-
-        Particle &p1 = r_particles[i1].particle();
-        Particle &p2 = r_particles[i2].particle();
+        Particle &p1 = r_particles.at(i1).particle();
+        Particle &p2 = r_particles.at(i2).particle();
 
         Vec2<float> p1_pos = p1.getPosition();
         Vec2<float> p2_pos = p2.getPosition();

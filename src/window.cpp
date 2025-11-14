@@ -1,21 +1,56 @@
 #include "window.hpp"
 
+#include <iostream>
+
 #include "utils/math_utils.hpp"
 
 #include "particle_world/particle_world.hpp"
 
-Window::Window(int width, int height)
+Window::Window(int windowWidth, int windowHeight)
 {
-    m_window.create(sf::VideoMode(sf::Vector2u(width, height)), "Physics Simulator");
+    m_window.create(sf::VideoMode(sf::Vector2u(windowWidth, windowHeight)), "Physics Simulator");
     m_window.setFramerateLimit(60);
 
-    Bounds2<float> bounds(Vec2<float>(100, 100), Vec2<float>(width - 100, height - 100));
+    Bounds2<float> bounds(Vec2<float>(20, 20), Vec2<float>(windowWidth - 20, windowHeight - 20));
     ParticleWorld particleWorld(bounds);
 
     particleWorld.createParticleGroup("main");
     particleWorld.createParticleGroup("string");
     particleWorld.createParticleGroup("big");
     particleWorld.setGravity(Vec2<float>(0, 0));
+
+    // int width = 40;
+    // int height = 40;
+    // float spacing = 2.0f;
+
+    // for (int y = 0; y < height; ++y)
+    // {
+    //     for (int x = 0; x < width; ++x)
+    //     {
+    //         int i = y * width + x;
+    //         Particle p(Vec2<float>(x * spacing + 200, y * spacing + 200), 1);
+    //         particleWorld.addParticle(p, "string");
+
+    //         if (x < width - 1)
+    //         {
+    //             int i_right = y * width + (x + 1);
+    //             particleWorld.linkParticles(i, i_right, spacing);
+    //         }
+
+    //         if (y < height - 1)
+    //         {
+    //             int i_down = (y + 1) * width + x;
+    //             particleWorld.linkParticles(i, i_down, spacing);
+    //         }
+
+    //         if (x < width - 1 && y < height - 1)
+    //         {
+    //             int i_downright = (y + 1) * width + (x + 1);
+    //             float dist = std::sqrt(spacing * spacing + spacing * spacing);
+    //             particleWorld.linkParticles(i, i_downright, dist);
+    //         }
+    //     }
+    // }
 
     while (m_window.isOpen())
     {
@@ -35,17 +70,18 @@ Window::Window(int width, int height)
             Particle p(Vec2<float>(mousePos.x, mousePos.y), 3.0f);
             particleWorld.addParticle(p, "main");
         }
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num2))
         {
-            Particle p(Vec2<float>(mousePos.x, mousePos.y), 3.0f);
+            Particle p(Vec2<float>(mousePos.x, mousePos.y), 1.0f);
+
+            uint64_t id = particleWorld.getNextParticleID();
 
             particleWorld.addParticle(p, "string");
 
-            size_t index = particleWorld.getParticleCount();
-
-            if (index > 0)
+            if (particleWorld.getParticles().size() >= 2)
             {
-                particleWorld.linkParticles(index, index - 1, 5);
+                particleWorld.linkParticles(id, id - 1, 1);
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num3))
@@ -53,21 +89,27 @@ Window::Window(int width, int height)
             Particle p(Vec2<float>(mousePos.x, mousePos.y), 10.0f);
             particleWorld.addParticle(p, "big");
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num4))
+        {
+            particleWorld.purgeParticlesInGroup("string");
+            particleWorld.purgeParticlesInGroup("main");
+            particleWorld.purgeParticlesInGroup("big");
+        }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
         {
             int i = 0;
-            for (GroupedParticle &gp : particleWorld.getParticles())
+            for (auto &pair : particleWorld.getParticles())
             {
+                GroupedParticle &gp = pair.second;
                 Particle &p = gp.particle();
 
-                if (gp.group() == particleWorld.getGroupIndex("string") && i == 0)
+                if (gp.group() == particleWorld.getGroupIndexFromName("string") && i == 0)
                 {
-                    p.addAcceleration(Vec2<float>((mousePos.x - p.getPosition().x) / 100.0f, (mousePos.y - p.getPosition().y) / 100.0f));
+                    p.addAcceleration(Vec2<float>((mousePos.x - p.getPosition().x) / 10.0f, (mousePos.y - p.getPosition().y) / 10.0f));
                 }
 
                 ++i;
-
             }
         }
 
@@ -82,8 +124,8 @@ Window::Window(int width, int height)
         const float seconds_per_frame = std::chrono::duration_cast<std::chrono::duration<float>>(frame_end - frame_start).count();
 
         float fps = 1.0f / seconds_per_frame;
-        m_dt = 60.0f / fps;
-        // m_dt = 1;
+        // m_dt = 60.0f / fps;
+        m_dt = 1;
     }
 }
 
@@ -101,9 +143,9 @@ void Window::drawParticleWorld(ParticleWorld &particleWorld)
 
     m_window.draw(visual_bounds);
 
-    for (GroupedParticle &gp : particleWorld.getParticles())
+    for (auto &pair : particleWorld.getParticles())
     {
-        Particle &particle = gp.particle();
+        Particle &particle = pair.second.particle();
 
         sf::CircleShape circle;
         circle.setFillColor(sf::Color(0, 100, 255));

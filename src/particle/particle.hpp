@@ -61,4 +61,3 @@ private:
 
     bool m_pinned = false;
 };
-

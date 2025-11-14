@@ -8,7 +8,7 @@
 class Window
 {
 public:
-    Window(int width, int height);
+    Window(int windowWidth, int windowHeight);
 
 private:
     void drawParticleWorld(ParticleWorld& particleWorld);

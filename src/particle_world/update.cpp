@@ -2,9 +2,9 @@
 
 void ParticleWorld::update(float dt)
 {
-    for (GroupedParticle &gp : m_particles)
+    for (auto &pair : m_particles)
     {
-        Particle &p = gp.particle();
+        Particle &p = pair.second.particle();
         p.addAcceleration(m_gravity);
         p.update(dt);
     }

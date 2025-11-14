@@ -2,15 +2,18 @@
 
 void ParticleOverlapSolver::update_step(float dt)
 {
-    for (size_t i = 0; i < r_particles.size(); ++i)
+    for (auto it1 = r_particles.begin(); it1 != r_particles.end(); ++it1)
     {
-        Particle &p1 = r_particles[i].particle();
+        Particle &p1 = it1->second.particle();
         Vec2<float> p1_pos = p1.getPosition();
         float p1_radius = p1.getRadius();
 
-        for (size_t j = i + 1; j < r_particles.size(); ++j)
+        auto it2 = it1;
+        ++it2;
+
+        for (; it2 != r_particles.end(); ++it2)
         {
-            Particle &p2 = r_particles[j].particle();
+            Particle &p2 = it2->second.particle();
             Vec2<float> p2_pos = p2.getPosition();
             float p2_radius = p2.getRadius();
 
