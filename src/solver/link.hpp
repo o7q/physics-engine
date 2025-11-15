@@ -4,8 +4,8 @@
 
 #include <unordered_map>
 
-#include "../particle/grouped_particle.hpp"
-#include "../particle/particle_link.hpp"
+#include "particle/grouped_particle.hpp"
+#include "particle/particle_link.hpp"
 
 class ParticleLinkSolver : public Solver
 {

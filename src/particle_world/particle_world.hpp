@@ -8,14 +8,14 @@
 #include <cstdint>
 #include <optional>
 
-#include "../particle/particle.hpp"
-#include "../particle/grouped_particle.hpp"
-#include "../solver/solver_common.hpp"
+#include "particle/particle.hpp"
+#include "particle/grouped_particle.hpp"
+#include "solver/solver_common.hpp"
 
 class ParticleWorld
 {
 public:
-    ParticleWorld(Bounds2<float> bounds);
+    ParticleWorld(Bounds2<float> bounds, Bounds2<unsigned int> sim_divisions);
 
     void update(float dt);
 
@@ -50,6 +50,7 @@ private:
     std::map<std::string, std::unique_ptr<Solver>> m_solvers;
 
     Bounds2<float> m_bounds;
+    Bounds2<unsigned int> m_sim_divisions;
 
     Vec2<float> m_gravity = Vec2<float>(0.0f, 0.0f);
 };

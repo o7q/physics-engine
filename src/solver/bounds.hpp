@@ -1,10 +1,9 @@
 #pragma once
 
-#include "solver.hpp"
-
 #include <unordered_map>
 
-#include "../particle/grouped_particle.hpp"
+#include "solver.hpp"
+#include "particle/grouped_particle.hpp"
 
 class ParticleBoundsSolver : public Solver
 {

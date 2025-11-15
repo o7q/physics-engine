@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utils/math_utils.hpp"
+#include "utils/math_utils.hpp"
 
 class Particle
 {
@@ -22,30 +22,11 @@ public:
         m_acceleration = Vec2<float>(0.0f, 0.0f);
     }
 
-    void setPosition(Vec2<float> position)
-    {
-        m_position = position;
-    }
-
-    void setVelocity(Vec2<float> velocity, float dt)
-    {
-        m_position_last = m_position - velocity * dt;
-    }
-
-    void setAcceleration(Vec2<float> acceleration)
-    {
-        m_acceleration = acceleration;
-    }
-
-    void addAcceleration(Vec2<float> acceleration)
-    {
-        m_acceleration = m_acceleration + acceleration;
-    }
-
-    void setPinned(bool pinned)
-    {
-        m_pinned = pinned;
-    }
+    void setPosition(Vec2<float> position) { m_position = position; }
+    void setVelocity(Vec2<float> velocity, float dt) { m_position_last = m_position - velocity * dt; }
+    void setAcceleration(Vec2<float> acceleration) { m_acceleration = acceleration; }
+    void addAcceleration(Vec2<float> acceleration) { m_acceleration = m_acceleration + acceleration; }
+    void setPinned(bool pinned) { m_pinned = pinned; }
 
     Vec2<float> getPosition() const { return m_position; }
     Vec2<float> getVelocity(float dt) const { return (m_position - m_position_last) / dt; }

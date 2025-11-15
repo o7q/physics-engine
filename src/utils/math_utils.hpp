@@ -83,3 +83,18 @@ namespace Random
         return dist(gen);
     }
 }
+
+inline unsigned int index_2d_to_1d(unsigned int x, unsigned int y, unsigned int width)
+{
+    return y * width + x;
+}
+
+inline Vec2<unsigned int> index_1d_to_2d(unsigned int i, unsigned int width)
+{
+    Vec2<unsigned int> out;
+
+    out.x = i % width;
+    out.y = i / width;
+
+    return out;
+}

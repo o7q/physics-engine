@@ -2,7 +2,6 @@
 
 void ParticleLinkSolver::update_step(float dt)
 {
-    size_t size = r_particles.size();
     for (ParticleLink &link : r_links)
     {
         uint64_t i1 = link.getI1();

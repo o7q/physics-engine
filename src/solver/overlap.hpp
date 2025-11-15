@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 
-#include "../particle/grouped_particle.hpp"
+#include "particle/grouped_particle.hpp"
 
 class ParticleOverlapSolver : public Solver
 {
