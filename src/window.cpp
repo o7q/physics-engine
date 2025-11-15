@@ -12,11 +12,12 @@ Window::Window(int windowWidth, int windowHeight)
     m_window.setFramerateLimit(60);
 
     Bounds2<float> bounds(Vec2<float>(20, 20), Vec2<float>(windowWidth - 20, windowHeight - 20));
-    ParticleWorld particleWorld(bounds);
 
-    particleWorld.createParticleGroup("main");
-    particleWorld.createParticleGroup("string");
-    particleWorld.createParticleGroup("big");
+    ParticleWorld particleWorld(bounds, Vec2<unsigned int>(2, 2));
+
+    particleWorld.particles().createParticleGroup("main");
+    particleWorld.particles().createParticleGroup("string");
+    particleWorld.particles().createParticleGroup("big");
     particleWorld.setGravity(Vec2<float>(0, 0));
 
     // int width = 40;
@@ -68,43 +69,43 @@ Window::Window(int windowWidth, int windowHeight)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num1))
         {
             Particle p(Vec2<float>(mousePos.x, mousePos.y), 3.0f);
-            particleWorld.addParticle(p, "main");
+            particleWorld.particles().addParticle(p, "main");
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num2))
         {
             Particle p(Vec2<float>(mousePos.x, mousePos.y), 1.0f);
 
-            uint64_t id = particleWorld.getNextParticleID();
+            uint64_t id = particleWorld.particles().getNextParticleID();
 
-            particleWorld.addParticle(p, "string");
+            particleWorld.particles().addParticle(p, "string");
 
-            if (particleWorld.getParticles().size() >= 2)
+            if (particleWorld.particles().getParticles().size() >= 2)
             {
-                particleWorld.linkParticles(id, id - 1, 1);
+                particleWorld.particles().linkParticles(id, id - 1, 1);
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num3))
         {
             Particle p(Vec2<float>(mousePos.x, mousePos.y), 10.0f);
-            particleWorld.addParticle(p, "big");
+            particleWorld.particles().addParticle(p, "big");
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num4))
         {
-            particleWorld.purgeParticlesInGroup("string");
-            particleWorld.purgeParticlesInGroup("main");
-            particleWorld.purgeParticlesInGroup("big");
+            particleWorld.particles().purgeParticlesInGroup("string");
+            particleWorld.particles().purgeParticlesInGroup("main");
+            particleWorld.particles().purgeParticlesInGroup("big");
         }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
         {
             int i = 0;
-            for (auto &pair : particleWorld.getParticles())
+            for (auto &pair : particleWorld.particles().getParticles())
             {
                 GroupedParticle &gp = pair.second;
                 Particle &p = gp.particle();
 
-                if (gp.group() == particleWorld.getGroupIndexFromName("string") && i == 0)
+                if (gp.group() == particleWorld.particles().getGroupIndexFromName("string") && i == 0)
                 {
                     p.addAcceleration(Vec2<float>((mousePos.x - p.getPosition().x) / 10.0f, (mousePos.y - p.getPosition().y) / 10.0f));
                 }
@@ -131,7 +132,7 @@ Window::Window(int windowWidth, int windowHeight)
 
 void Window::drawParticleWorld(ParticleWorld &particleWorld)
 {
-    Bounds2<float> bounds = particleWorld.getBounds();
+    Bounds2<float> bounds = particleWorld.grid().getBounds();
 
     sf::RectangleShape visual_bounds;
     visual_bounds.setSize(sf::Vector2f(bounds.size().x, bounds.size().y));
@@ -143,7 +144,7 @@ void Window::drawParticleWorld(ParticleWorld &particleWorld)
 
     m_window.draw(visual_bounds);
 
-    for (auto &pair : particleWorld.getParticles())
+    for (auto &pair : particleWorld.particles().getParticles())
     {
         Particle &particle = pair.second.particle();
 

@@ -2,7 +2,7 @@
 
 void ParticleWorld::update(float dt)
 {
-    for (auto &pair : m_particles)
+    for (auto &pair : m_sparseMap.getParticles())
     {
         Particle &p = pair.second.particle();
         p.addAcceleration(m_gravity);
